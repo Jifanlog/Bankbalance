@@ -89,3 +89,47 @@ canvas {
     font-size: 14px;
   }
 }
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .container {
+  background-color: #1e1e1e;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode form input,
+body.dark-mode form button {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+body.dark-mode form button[type="submit"] {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+body.dark-mode form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+body.dark-mode form button#clear-button {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+body.dark-mode form button#clear-button:hover {
+  background-color: #c82333;
+}
+
+body.dark-mode form button#remove-last-button {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+body.dark-mode form button#remove-last-button:hover {
+  background-color: #e0a800;
+}
