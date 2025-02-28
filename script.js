@@ -76,6 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
             beginAtZero: true,
           },
         },
+        animation: {
+          duration: 1000, // duration of animations in milliseconds
+          easing: "easeInOutQuad", // easing function for animations
+        },
       },
     });
   }
