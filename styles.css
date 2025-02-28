@@ -43,13 +43,34 @@ form button {
 
 form button {
   cursor: pointer;
-  background-color: #007bff;
-  color: #fff;
   border: none;
 }
 
-form button:hover {
+form button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+}
+
+form button[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+form button#clear-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+form button#clear-button:hover {
+  background-color: #c82333;
+}
+
+form button#remove-last-button {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+form button#remove-last-button:hover {
+  background-color: #e0a800;
 }
 
 canvas {
