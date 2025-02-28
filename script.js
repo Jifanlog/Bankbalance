@@ -6,9 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const monthInput = document.getElementById("month");
   const clearButton = document.getElementById("clear-button");
   const removeLastButton = document.getElementById("remove-last-button");
+  const switchChartButton = document.getElementById("switch-chart-button");
   const ctx = document.getElementById("balanceChart").getContext("2d");
   let balances = JSON.parse(localStorage.getItem("balances")) || [];
   let months = JSON.parse(localStorage.getItem("months")) || [];
+  let chartType = "line"; // Default chart type
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -52,21 +54,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  switchChartButton.addEventListener("click", function () {
+    chartType = chartType === "line" ? "bar" : "line";
+    updateGraph();
+  });
+
   function updateGraph() {
     if (window.barGraph) {
       window.barGraph.destroy();
     }
     window.barGraph = new Chart(ctx, {
-      type: "line",
+      type: chartType, // Use the current chart type
       data: {
         labels: months,
         datasets: [
           {
             label: "Bank Balance",
             data: balances,
+            backgroundColor:
+              chartType === "bar"
+                ? "rgba(75, 192, 192, 0.2)"
+                : "rgba(75, 192, 192, 0)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
-            fill: false,
+            fill: chartType === "line" ? false : true,
           },
         ],
       },
@@ -75,6 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
           y: {
             beginAtZero: true,
           },
+        },
+        animation: {
+          duration: 1000, // duration of animations in milliseconds
+          easing: "easeInOutQuad", // easing function for animations
         },
       },
     });
