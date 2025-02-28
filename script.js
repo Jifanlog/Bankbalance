@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const clearButton = document.getElementById("clear-button");
   const removeLastButton = document.getElementById("remove-last-button");
   const switchChartButton = document.getElementById("switch-chart-button");
+  const exportCsvButton = document.getElementById("export-csv-button");
+  const importCsvButton = document.getElementById("import-csv-button");
+  const importCsvFile = document.getElementById("import-csv-file");
+  const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
   const ctx = document.getElementById("balanceChart").getContext("2d");
   let balances = JSON.parse(localStorage.getItem("balances")) || [];
   let months = JSON.parse(localStorage.getItem("months")) || [];
@@ -57,6 +61,51 @@ document.addEventListener("DOMContentLoaded", function () {
   switchChartButton.addEventListener("click", function () {
     chartType = chartType === "line" ? "bar" : "line";
     updateGraph();
+  });
+
+  exportCsvButton.addEventListener("click", function () {
+    let csvContent = "data:text/csv;charset=utf-8,Month,Balance\n";
+    months.forEach((month, index) => {
+      csvContent += `${month},${balances[index]}\n`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "bank_balance_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  importCsvButton.addEventListener("click", function () {
+    importCsvFile.click();
+  });
+
+  importCsvFile.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const csv = e.target.result;
+        const lines = csv.split("\n");
+        months = [];
+        balances = [];
+        for (let i = 1; i < lines.length; i++) {
+          const [month, balance] = lines[i].split(",");
+          if (month && balance) {
+            months.push(month);
+            balances.push(parseFloat(balance));
+          }
+        }
+        updateGraph();
+        saveData();
+      };
+      reader.readAsText(file);
+    }
+  });
+
+  toggleDarkModeButton.addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
   });
 
   function updateGraph() {
